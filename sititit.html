@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Il Gioco di Laura</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    .hidden {
+      display: none;
+    }
+    .big-text {
+      font-size: 3em;
+      color: #ff69b4;
+      animation: pulse 1s infinite alternate;
+    }
+    .question {
+      font-size: 2em;
+      margin: 20px;
+      color: #00ffff;
+    }
+    .input-area, .options, .next-btn, .spin-btn {
+      margin-top: 30px;
+    }
+    input[type="text"] {
+      font-size: 1.5em;
+      padding: 10px;
+    }
+    button {
+      font-size: 1.2em;
+      padding: 10px 20px;
+      margin: 10px;
+      background-color: #ff69b4;
+      border: none;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: scale(1.1);
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.1); }
+    }
+    #wheel {
+      width: 300px;
+      height: 300px;
+      margin: auto;
+      border: 5px solid white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+      background: conic-gradient(#ff69b4 0% 25%, #87cefa 25% 50%, #90ee90 50% 75%, #ffa500 75% 100%);
+      color: black;
+      transition: transform 4s ease-out;
+    }
+  </style>
+</head>
+<body>
+  <div id="page1">
+    <div class="question">Inserisci il tuo nome</div>
+    <div class="input-area">
+      <input type="text" id="nameInput">
+      <button onclick="checkName()">Invia</button>
+    </div>
+    <div id="nameError" style="color:red;"></div>
+  </div>
+
+  <div id="page2" class="hidden">
+    <div class="big-text">Molto bene,<br>adesso rispondi attentamente</div>
+  </div>
+
+  <div id="page3" class="hidden">
+    <div class="question">Chi preferisci fra queste persone?</div>
+    <div class="options">
+      <button onclick="wrongAnswer()">Bad Bunny</button>
+      <button onclick="wrongAnswer()">Yukki</button>
+      <button onclick="rightAnswer()">Edoardo (risposta giusta)</button>
+      <button onclick="wrongAnswer()">Bojack</button>
+      <button onclick="wrongAnswer()">20 miliardi di milioni</button>
+      <button onclick="wrongAnswer()">Ramen infinito</button>
+      <button onclick="wrongAnswer()">Sushi illimitato</button>
+    </div>
+    <div id="wrongMessage" class="big-text hidden">TESTA VUOTA NO TI PICCHIO 🐴</div>
+  </div>
+
+  <div id="page4" class="hidden">
+    <div class="big-text">
+      Siamo arrivati fino a questo punto,<br>complimenti, ma vediamo adesso come te la cavi
+    </div>
+    <div class="question">Quale fra queste opzioni è quella giusta?</div>
+    <div class="options">
+      <button onclick="finalAnswer()">Devo dare assolutamente un bacio a Edoardo</button>
+      <button onclick="finalAnswer()">Devo dare assolutamente un bacio a Edoardo</button>
+      <button onclick="finalAnswer()">Devo dare assolutamente un bacio a Edoardo</button>
+      <button onclick="finalAnswer()">Devo dare assolutamente un bacio a Edoardo</button>
+    </div>
+  </div>
+
+  <div id="page5" class="hidden">
+    <div class="big-text">Ahah ti ho fregata e ho vinto 😎</div>
+  </div>
+
+  <div id="page6" class="hidden">
+    <div class="big-text">DING DING DONG,<br>sei la fortunata vincitrice<br>della RUOTA DELLA SFORTUNA! 🎉</div>
+  </div>
+
+  <div id="page7" class="hidden">
+    <div id="wheel"></div>
+    <button class="spin-btn" onclick="spinWheel()">GIRA LA RUOTA</button>
+  </div>
+
+  <div id="page8" class="hidden">
+    <div class="big-text">To' che coincidenza! Hai vinto un Edoardo tascabile 💖</div>
+    <div class="question">Per ritirare i premi, sai già come fare 😜</div>
+  </div>
+
+  <div id="page9" class="hidden">
+    <div class="big-text">
+      Sono solo un povero computer,<br>
+      ma Edoardo mi ha confidato che<br>
+      tiene moltissimo ad una persona speciale<br>
+      e le vuole un bene infinito... 💗<br>
+      ti manda un bacio e un abbraccio 😘🤗
+    </div>
+  </div>
+
+  <script>
+    function checkName() {
+      const name = document.getElementById("nameInput").value.toLowerCase();
+      if (name !== "laura") {
+        document.getElementById("nameError").innerText = "Ma non ti chiami Laura?! Riprova";
+      } else {
+        document.getElementById("page1").classList.add("hidden");
+        document.getElementById("page2").classList.remove("hidden");
+        setTimeout(() => {
+          document.getElementById("page2").classList.add("hidden");
+          document.getElementById("page3").classList.remove("hidden");
+        }, 5000);
+      }
+    }
+
+    function wrongAnswer() {
+      document.getElementById("wrongMessage").classList.remove("hidden");
+    }
+
+    function rightAnswer() {
+      document.getElementById("page3").classList.add("hidden");
+      document.getElementById("page4").classList.remove("hidden");
+    }
+
+    function finalAnswer() {
+      document.getElementById("page4").classList.add("hidden");
+      document.getElementById("page5").classList.remove("hidden");
+      setTimeout(() => {
+        document.getElementById("page5").classList.add("hidden");
+        document.getElementById("page6").classList.remove("hidden");
+        setTimeout(() => {
+          document.getElementById("page6").classList.add("hidden");
+          document.getElementById("page7").classList.remove("hidden");
+        }, 10000);
+      }, 3000);
+    }
+
+    function spinWheel() {
+      const wheel = document.getElementById("wheel");
+      const options = ["Una cena fuori", "Un giro a Parigi", "Unlimited raviolis", "Edoardo"];
+      const result = options[3]; // Edoardo fisso
+      wheel.style.transform = "rotate(1440deg)";
+      setTimeout(() => {
+        document.getElementById("page7").classList.add("hidden");
+        document.getElementById("page8").classList.remove("hidden");
+        setTimeout(() => {
+          document.getElementById("page8").classList.add("hidden");
+          document.getElementById("page9").classList.remove("hidden");
+        }, 5000);
+      }, 10000);
+    }
+  </script>
+</body>
+</html>
